@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ## Getting Started
 
 Simply open `index.html` in your web browser to view the website.
@@ -21,4 +19,3 @@ php -S localhost:8000
 
 Then open `http://localhost:8000` in your browser.
 
->>>>>>> e122c2d (connecting)

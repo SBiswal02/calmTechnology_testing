@@ -402,9 +402,31 @@ class NBackTest {
     }
 }
 
-// Initialize the test when page loads
+function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    document.body.classList.toggle('dark-mode', isDark);
+
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+    }
+}
+
+// Initialize the test and theme when page loads
 document.addEventListener('DOMContentLoaded', () => {
     new NBackTest();
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            const nextTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', nextTheme);
+            applyTheme(nextTheme);
+        });
+    }
 });
 
 // Navbar scroll effect
