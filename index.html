@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Back Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">N-Back Test</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#instructions">Instructions</a></li>
+                <li><a href="#test">Test</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">N-Back Cognitive Test</h1>
+            <p class="hero-subtitle">Measure your working memory and attention span</p>
+            <div class="hero-buttons">
+                <a href="#instructions" class="btn btn-primary">Learn How</a>
+                <a href="#test" class="btn btn-secondary">Start Test</a>
+            </div>
+        </div>
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+    </section>
+
+    <section id="instructions" class="section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="instructions-content">
+                <div class="instruction-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>What is N-Back?</h3>
+                    <p>The n-back test is a cognitive task used to measure working memory. You'll see a sequence of stimuli and need to identify when the current item matches the one from N positions back.</p>
+                </div>
+                <div class="instruction-card">
+                    <div class="card-icon">📋</div>
+                    <h3>How to Play</h3>
+                    <ul>
+                        <li>Stimuli will appear one at a time</li>
+                        <li>Press <strong>SPACE</strong> or click <strong>MATCH</strong> when the current stimulus matches the one from N positions back</li>
+                        <li>For example, in a 2-back test, if you see: A, B, <strong>A</strong> - press MATCH on the second A</li>
+                        <li>Be quick but accurate!</li>
+                    </ul>
+                </div>
+                <div class="instruction-card">
+                    <div class="card-icon">📊</div>
+                    <h3>Scoring</h3>
+                    <p>Your score is based on accuracy (hits, misses, false alarms, and correct rejections). Higher scores indicate better working memory capacity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="test" class="section section-alt">
+        <div class="container">
+            <div id="test-config" class="test-config">
+                <h2 class="section-title">Configure Test</h2>
+                <form class="config-form">
+                    <div class="form-group">
+                        <label for="nValue">N-Back Level</label>
+                        <select id="nValue" name="nValue" required>
+                            <option value="1">1-Back (Easy)</option>
+                            <option value="2" selected>2-Back (Medium)</option>
+                            <option value="3">3-Back (Hard)</option>
+                            <option value="4">4-Back (Very Hard)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="numTrials">Number of Trials</label>
+                        <select id="numTrials" name="numTrials" required>
+                            <option value="20">20 trials</option>
+                            <option value="30" selected>30 trials</option>
+                            <option value="40">40 trials</option>
+                            <option value="50">50 trials</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stimulusType">Stimulus Type</label>
+                        <select id="stimulusType" name="stimulusType" required>
+                            <option value="letters" selected>Letters (A-Z)</option>
+                            <option value="numbers">Numbers (0-9)</option>
+                            <option value="positions">Positions (Grid)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stimulusDuration">Stimulus Duration (ms)</label>
+                        <input type="number" id="stimulusDuration" name="stimulusDuration" value="2000" min="500" max="5000" step="100" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Start Test</button>
+                </form>
+            </div>
+
+            <div id="test-interface" class="test-interface hidden">
+                <div class="test-header">
+                    <div class="test-info">
+                        <span id="trial-counter">Trial 0 / 0</span>
+                        <span id="n-value-display">N-Back: 2</span>
+                    </div>
+                    <button id="end-test-btn" class="btn btn-secondary">End Test</button>
+                </div>
+                <div class="stimulus-container">
+                    <div id="stimulus-display" class="stimulus-display"></div>
+                    <div id="grid-display" class="grid-display hidden"></div>
+                </div>
+                <div class="response-buttons">
+                    <button id="match-btn" class="btn btn-primary btn-large">
+                        MATCH<br><small>(SPACE)</small>
+                    </button>
+                    <button id="no-match-btn" class="btn btn-secondary btn-large">
+                        NO MATCH<br><small>(Click or wait)</small>
+                    </button>
+                </div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+
+            <div id="test-results" class="test-results hidden">
+                <h2 class="section-title">Test Results</h2>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>Accuracy</h3>
+                        <div class="result-value" id="accuracy">0%</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Hits</h3>
+                        <div class="result-value" id="hits">0</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Misses</h3>
+                        <div class="result-value" id="misses">0</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>False Alarms</h3>
+                        <div class="result-value" id="false-alarms">0</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Correct Rejections</h3>
+                        <div class="result-value" id="correct-rejections">0</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>Reaction Time</h3>
+                        <div class="result-value" id="reaction-time">0 ms</div>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button id="retry-btn" class="btn btn-primary">Try Again</button>
+                    <button id="new-test-btn" class="btn btn-secondary">New Test</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 N-Back Test. Cognitive Assessment Tool.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
